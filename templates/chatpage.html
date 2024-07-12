@@ -8,15 +8,38 @@
     <link rel="stylesheet" href={% static "css/style.css" %}>
 </head>
 <body>
-<h2>Welcome to Chatbot</h2>
+<h2>Welcome to Cardiology Chatbot</h2>
 <div class="chat-container">
     <div class="message" id="chatMessages"></div>
     <div class="input-container">
-        <input type="text" id="userInput" placeholder="Type your message here..." />
+        <input type="text" id="userInput" placeholder="Speak into the microphone Or Type your message here..." />
         <button onclick="sendMessage()">Send</button>
+        <button id="talkButton" class="bg-transparent border-0" onmousedown="startRecording()" onmouseup="stopRecording()">MIC</button>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    let recognition = new webkitSpeechRecognition(); // Create speech recognition object
+    recognition.continuous = true; // Allow continuous recognition
+    let output = document.getElementById('userInput');
+  
+    function startRecording() {
+      recognition.start();
+      output.placeholder = "Listening..."; // Change placeholder text while listening
+    }
+  
+    function stopRecording() {
+      recognition.stop();
+      output.placeholder = "Speak into the microphone Or Type your message here..."; // Reset placeholder text
+
+      // Trigger click event on send-button
+  }
+    recognition.onresult = function(event) {
+      let last = event.results.length - 1;
+      let transcript = event.results[last][0].transcript;
+      output.value = transcript;
+    }
+  </script>
 <script>
     function appendMessage(content, sender) {
         const messageDiv = document.createElement('div');

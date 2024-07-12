@@ -9,7 +9,8 @@ response = requests.post(
   data=json.dumps({
     "model": "mistralai/mistral-7b-instruct:free", # Optional
     "messages": [
-      { "role": "user", "content": "What is the meaning of life?" }
+            {"role":"user", "content" : 'You are a Medical Assistant. Reply only to medical-related questions and For other topics, respond only with "Out of domain." nothing else.'},
+            { "role": "user", "content": "how to cook pasta ?" }
     ]
   })
 )
